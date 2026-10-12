@@ -1,0 +1,13 @@
+# Parag Manwal — Full-Stack Developer
+
+> Portfolio of Parag Manwal, a BCA student and full-stack developer building real-time web applications with React, Node.js and WebSockets.
+
+## Projects
+
+- [FlowBoard](https://github.com/zenXD45/flowboard): Real-time collaborative Kanban board with roles, comments and live presence
+- [Cipher](https://github.com/zenXD45/cipher): End-to-end encrypted chat app; server stores only ciphertext
+
+## Links
+
+- [GitHub](https://github.com/zenXD45)
+- [LinkedIn](https://linkedin.com/in/parag-manwal)

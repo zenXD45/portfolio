@@ -1,0 +1,420 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #f5f6f8;
+  --color-ink: #17191e;
+  --color-muted: #5c6370;
+  --color-faint: #626a78;
+  --color-line: rgba(23, 25, 30, 0.08);
+  --color-accent: #17191e;
+  --color-accent-deep: #000000;
+  --color-accent-ink: #ffffff;
+
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --radius-card: 20px;
+  --radius-shell: 24px;
+
+  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-quint: cubic-bezier(0.77, 0, 0.175, 1);
+
+  --shadow-soft: 6px 6px 16px rgba(174, 186, 205, 0.38),
+    -5px -5px 14px rgba(255, 255, 255, 0.95);
+  --shadow-soft-sm: 4px 4px 10px rgba(174, 186, 205, 0.34),
+    -3px -3px 9px rgba(255, 255, 255, 0.9);
+  --shadow-soft-in: inset 3px 3px 7px rgba(174, 186, 205, 0.42),
+    inset -3px -3px 7px rgba(255, 255, 255, 0.92);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    .scroll-cue,
+    .ping-dot::before {
+      animation: none !important;
+    }
+    #glaze-sheet {
+      display: none;
+    }
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-deep);
+    outline-offset: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #d5d8de;
+    border-radius: 8px;
+    border: 2px solid var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c2c6ce;
+  }
+}
+
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* ——— Liquid glass ——— */
+@utility glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.72),
+    rgba(255, 255, 255, 0.42)
+  );
+  backdrop-filter: blur(22px) saturate(1.6);
+  -webkit-backdrop-filter: blur(22px) saturate(1.6);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.85) inset,
+    0 -1px 0 0 rgba(255, 255, 255, 0.35) inset,
+    0 8px 32px rgba(23, 25, 30, 0.08),
+    6px 6px 18px rgba(174, 186, 205, 0.3),
+    -4px -4px 12px rgba(255, 255, 255, 0.85);
+}
+
+@utility glass-soft {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.58),
+    rgba(255, 255, 255, 0.32)
+  );
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.7) inset,
+    0 6px 20px rgba(23, 25, 30, 0.05),
+    4px 4px 12px rgba(174, 186, 205, 0.32),
+    -3px -3px 10px rgba(255, 255, 255, 0.9);
+}
+
+/* Frosted slab: glass sitting on the page, casting a soft-touch shadow */
+@utility slab {
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.78),
+    rgba(255, 255, 255, 0.5)
+  );
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.8) inset,
+    0 2px 6px rgba(23, 25, 30, 0.04),
+    var(--shadow-soft);
+  transition:
+    box-shadow 250ms var(--ease-out-quint),
+    transform 250ms var(--ease-out-quint);
+}
+@media (hover: hover) {
+  .slab:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 1px 0 0 rgba(255, 255, 255, 0.85) inset,
+      0 4px 10px rgba(23, 25, 30, 0.05),
+      8px 8px 22px rgba(174, 186, 205, 0.45),
+      -6px -6px 18px rgba(255, 255, 255, 0.98);
+  }
+}
+
+/* ——— Soft-touch (refined neumorphism) ——— */
+@utility neu-raise {
+  background: linear-gradient(145deg, #f8f9fb, #eef1f5);
+  box-shadow: var(--shadow-soft);
+}
+
+@utility neu-press {
+  box-shadow: var(--shadow-soft-in);
+}
+
+/* Minimal card (flat, hairline) */
+@utility card {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--color-line);
+  box-shadow:
+    0 1px 2px rgba(23, 25, 30, 0.04),
+    0 8px 24px rgba(23, 25, 30, 0.04);
+  transition:
+    box-shadow 250ms var(--ease-out-quint),
+    transform 250ms var(--ease-out-quint),
+    border-color 250ms var(--ease-out-quint);
+}
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(23, 25, 30, 0.12);
+    box-shadow:
+      0 2px 4px rgba(23, 25, 30, 0.05),
+      0 16px 40px rgba(23, 25, 30, 0.09);
+  }
+}
+
+/* Pressed soft chip */
+@utility chip {
+  background: transparent;
+  box-shadow: var(--shadow-soft-in);
+  transition:
+    color 200ms ease,
+    background-color 200ms ease,
+    box-shadow 200ms ease;
+}
+@media (hover: hover) {
+  .chip:hover {
+    background: rgba(23, 25, 30, 0.06);
+    color: var(--color-accent-deep);
+    box-shadow:
+      inset 2px 2px 5px rgba(174, 186, 205, 0.45),
+      inset -2px -2px 5px rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* Pressed groove track */
+@utility track-press {
+  box-shadow: var(--shadow-soft-in);
+}
+
+/* ——— Buttons ——— */
+@utility btn-primary {
+  background: linear-gradient(180deg, #2a2d34, #14161a);
+  color: var(--color-accent-ink);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.18) inset,
+    0 8px 20px rgba(23, 25, 30, 0.28);
+  transition:
+    transform 180ms var(--ease-out-quint),
+    box-shadow 180ms var(--ease-out-quint),
+    filter 180ms ease;
+}
+@media (hover: hover) {
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+    box-shadow:
+      0 1px 0 0 rgba(255, 255, 255, 0.22) inset,
+      0 12px 28px rgba(23, 25, 30, 0.34);
+  }
+}
+.btn-primary:active {
+  transform: scale(0.97);
+  filter: brightness(0.97);
+  transition-duration: 100ms;
+}
+
+.btn-primary,
+.glass-btn {
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after,
+.glass-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  background: linear-gradient(
+    105deg,
+    transparent,
+    rgba(255, 255, 255, 0.45),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 500ms ease;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .btn-primary:hover::after,
+  .glass-btn:hover::after {
+    left: 130%;
+  }
+}
+
+.glass-btn {
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  color: var(--color-ink);
+  transition:
+    transform 180ms var(--ease-out-quint),
+    box-shadow 180ms var(--ease-out-quint),
+    background-color 180ms ease;
+}
+@media (hover: hover) {
+  .glass-btn:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.65);
+  }
+}
+.glass-btn:active {
+  transform: scale(0.97);
+  transition-duration: 100ms;
+}
+
+/* ——— Status pulse ——— */
+.ping-dot {
+  position: relative;
+}
+.ping-dot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  opacity: 0.55;
+  animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2.3);
+    opacity: 0;
+  }
+}
+
+/* ——— Hero line mask ——— */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+/* ——— Glaze page transition (Auraz-inspired sweep) ——— */
+#glaze-sheet {
+  will-change: transform;
+}
+.glaze-fill {
+  background: linear-gradient(
+    125deg,
+    rgba(252, 253, 254, 0.97),
+    rgba(238, 241, 245, 0.96) 55%,
+    rgba(248, 249, 251, 0.97)
+  );
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  border-inline: 1.5px solid rgba(23, 25, 30, 0.28);
+  box-shadow:
+    inset 1px 0 0 rgba(255, 255, 255, 0.9),
+    inset -1px 0 0 rgba(255, 255, 255, 0.6),
+    -20px 0 60px rgba(23, 25, 30, 0.1);
+}
+
+/* ——— Scroll cue ——— */
+.scroll-cue {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-accent-deep),
+    transparent
+  );
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-cue {
+    animation: cue 2.4s ease-in-out infinite;
+  }
+}
+@keyframes cue {
+  0% {
+    transform: translateX(-120%);
+  }
+  50% {
+    transform: translateX(180%);
+  }
+  100% {
+    transform: translateX(-120%);
+  }
+}
+
+/* ——— Black arrow cursor ——— */
+html,
+body {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cpath d='M3 2 L3 20 L7.7 15.5 L10.5 22 L13.3 20.7 L10.5 14.2 L16.5 14.2 Z' fill='%2317191e' stroke='%23ffffff' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E")
+      3 2,
+    default;
+}
+a,
+button,
+[role="button"],
+summary,
+input,
+select,
+textarea,
+label[for] {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cpath d='M3 2 L3 20 L7.7 15.5 L10.5 22 L13.3 20.7 L10.5 14.2 L16.5 14.2 Z' fill='%2317191e' stroke='%23ffffff' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E")
+      3 2,
+    pointer;
+}
+
+
+/* ——— Tilt + spotlight (data-tilt) ——— */
+[data-tilt] {
+  position: relative;
+  transform: perspective(950px)
+    rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition:
+    transform 0.3s var(--ease-out-quint),
+    box-shadow 0.3s var(--ease-out-quint);
+}
+[data-tilt]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--spot-x, 50%) var(--spot-y, 30%),
+    rgba(255, 255, 255, 0.5),
+    transparent 62%
+  );
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-out-quint);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+[data-tilt]:hover::after {
+  opacity: 1;
+}
+/* tilt wins over .slab hover lift: same specificity, later source */
+.slab[data-tilt]:hover {
+  transform: perspective(950px) rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg)) translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-tilt] {
+    transform: none !important;
+  }
+  [data-tilt]::after {
+    display: none;
+  }
+}
